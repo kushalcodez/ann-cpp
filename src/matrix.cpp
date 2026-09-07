@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <vector>
 using namespace std;
+//have to add getters and setters here im way too sleepy now will do it tmw
 Matrix::Matrix(int r, int c) : rows(r), columns(c), data(r * c, 0.0) {}
 Matrix::Matrix(int r , int c , vector<double> d): rows(r) , columns(c), data(d){}
 Matrix Matrix::add(const Matrix &mat2) const{
