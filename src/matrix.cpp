@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <vector>
 using namespace std;
+Matrix::Matrix(int r, int c) : rows(r), columns(c), data(r * c, 0.0) {}
+Matrix::Matrix(int r , int c , vector<double> d): rows(r) , columns(c), data(d){}
 Matrix Matrix::add(const Matrix &mat2) const{
     int r1 = rows;
     int c1 = columns;
@@ -54,7 +56,31 @@ Matrix Matrix::multiply(const Matrix &mat2) const{
         Matrix product(r1,c1,datanew);
     return product;
 }
-//matmul should be here leaving a comment so i can come back later and continue working
+Matrix Matrix::matmul(const Matrix &mat2) const {
+    int r1 = rows;
+    int c1 = columns;
+    int r2 = mat2.getRows();
+    int c2 = mat2.getcolumns();
+    if (c1 != r2) {
+        throw std::invalid_argument( "Matrix::matmul - incompatible shapes for matrix multiplication");
+    }
+
+    vector<double> data2 = mat2.getData();
+
+    // Result will be r1 x c2
+    vector<double> datanew(r1 * c2, 0);
+
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            for (int k = 0; k < c1; k++) {
+                datanew[i * c2 + j] +=
+                    data[i * c1 + k] * data2[k * c2 + j];
+            }
+        }
+    }
+    Matrix product(r1, c2, datanew);
+    return product;
+}
 Matrix Matrix::transpose()const{
     int r1 = rows;
     int c1 = columns;
